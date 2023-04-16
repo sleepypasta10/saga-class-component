@@ -1,25 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  
+  render() {
+    return (
+      <div>
+        <h1>User Maintenance</h1>
+        <h3>{this.props.users.status}</h3>
+        
+        {/* {JSON.stringify(this.props.users)} */}
+        <button onClick={this.props.constFunc}>Click Me</button>
+        <button onClick={this.props.getDataFunc}>Get Data</button>
+        {this.props.users.listUsers.map((i, index) => {
+          return (
+            <h2 key={index}>{i.id} : {i.first_name}</h2>
+            )
+          })}
+      </div>
+    )
+  }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return{
+    users: state.stateUsers
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    constFunc: () => {
+      dispatch({ type:'abc', payload: "bla bla"})
+    },
+
+    getDataFunc: () => {
+      dispatch({
+        type: "COUNT"
+      })
+    }
+  }
+}
+
+export default connect (mapStateToProps, mapDispatchToProps)(App)
+
